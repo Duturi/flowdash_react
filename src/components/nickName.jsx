@@ -10,16 +10,16 @@ const NickName = () => {
 
   const inputRef = useRef(null);
 
-  // 초기 로드 시 인사말 및 날짜 설정
+  // 인사말 및 날짜 설정
   useEffect(() => {
     const now = new Date();
     const hour = now.getHours();
 
-    let msg = "안녕하세요";
-    if (hour >= 5 && hour < 11) msg = "좋은 아침이에요";
-    else if (hour >= 11 && hour < 17) msg = "좋은 오후에요";
-    else if (hour >= 17 && hour < 22) msg = "좋은 저녁이에요";
-    setGreeting(msg);
+    let message = "안녕하세요";
+    if (hour >= 5 && hour < 11) message = "좋은 아침이에요";
+    else if (hour >= 11 && hour < 17) message = "좋은 오후에요";
+    else if (hour >= 17 && hour < 22) message = "좋은 저녁이에요";
+    setGreeting(message);
 
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, "0");
@@ -61,7 +61,6 @@ const NickName = () => {
               onChange={(e) => setNickname(e.target.value)}
               onBlur={handleSave}
               onKeyDown={handleKeyDown}
-              style={{ width: `${nickname.length + 1}ch` }} // 가변 너비만 인라인 유지
             />
             님
           </span>

@@ -3,12 +3,11 @@ import { useState, useEffect, useMemo } from "react";
 const TODO_KEY = "flowdash-todos";
 
 const TodoBoard = () => {
-  // --- 1. 상태 관리 (State) ---
+  // 상태관리
   const [todos, setTodos] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
 
-  // 입력 폼 상태
   const [newTodo, setNewTodo] = useState({
     title: "",
     content: "",
@@ -16,10 +15,9 @@ const TodoBoard = () => {
     priority: "mid",
   });
 
-  // 정렬 상태
   const [ascending, setAscending] = useState(true);
 
-  // --- 2. 초기 데이터 로드 ---
+  // 데이터 로드
   useEffect(() => {
     const saved = localStorage.getItem(TODO_KEY);
     if (saved) {
@@ -27,13 +25,11 @@ const TodoBoard = () => {
     }
   }, []);
 
-  // 로컬스토리지 저장 (todos가 변할 때마다 실행)
+  // 로컬스토리지 저장
   useEffect(() => {
     localStorage.setItem(TODO_KEY, JSON.stringify(todos));
   }, [todos]);
 
-  // --- 3. 계산된 데이터 (Derived State) ---
-  // 별도의 render 함수 없이, todos가 변하면 자동으로 계산됩니다.
   const counts = useMemo(() => {
     const todo = todos.filter((t) => t.status === "todo").length;
     const doing = todos.filter((t) => t.status === "doing").length;
@@ -44,7 +40,6 @@ const TodoBoard = () => {
     return { todo, doing, done, total, achievement };
   }, [todos]);
 
-  // 정렬 및 필터링된 리스트
   const sortedTodos = useMemo(() => {
     return [...todos].sort((a, b) =>
       ascending
@@ -53,7 +48,6 @@ const TodoBoard = () => {
     );
   }, [todos, ascending]);
 
-  // --- 4. 주요 핸들러 함수 ---
   const handleAddTodo = () => {
     if (!newTodo.title.trim()) {
       alert("제목을 입력해주세요!");
@@ -93,10 +87,8 @@ const TodoBoard = () => {
     localStorage.removeItem(TODO_KEY);
   };
 
-  // --- 5. UI 렌더링 ---
   return (
     <div className="flowdash-container">
-      {/* 상단 카테고리/대시보드 영역 */}
       <section className="dashboard">
         <div>To Do: {counts.todo}</div>
         <div>In Progress: {counts.doing}</div>
@@ -105,7 +97,6 @@ const TodoBoard = () => {
         <div>달성률: {counts.achievement}%</div>
       </section>
 
-      {/* 컨트롤 버튼 */}
       <div className="controls">
         <button onClick={() => setIsModalOpen(true)} className="add-btn">
           할 일 추가
@@ -116,7 +107,6 @@ const TodoBoard = () => {
         <button onClick={() => setIsResetModalOpen(true)}>전체 초기화</button>
       </div>
 
-      {/* 보드 영역 */}
       <div className="boards" style={{ display: "flex", gap: "20px" }}>
         {["todo", "doing", "done"].map((status) => (
           <div key={status} className={`${status}-board`}>
@@ -152,7 +142,6 @@ const TodoBoard = () => {
         ))}
       </div>
 
-      {/* 추가 모달 (조건부 렌더링) */}
       {isModalOpen && (
         <div id="todo-modal" className="modal">
           <input
@@ -182,7 +171,6 @@ const TodoBoard = () => {
         </div>
       )}
 
-      {/* 초기화 확인 모달 */}
       {isResetModalOpen && (
         <div id="reset-modal" className="modal">
           <p>전체 데이터를 삭제하시겠습니까?</p>

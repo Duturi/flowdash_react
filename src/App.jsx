@@ -3,14 +3,10 @@ import { useState, useEffect } from "react";
 import TodoBoard from "./components/Todo-board";
 import Modal from "./components/modal";
 import NickName from "./components/nickName";
-import { useDarkMode } from "./hooks/useDarkMode";
-import { useStorage } from "./hooks/useStorage";
 
 function App() {
-  const [isDark, toggleTheme] = useDarkMode();
-
-  const [todos, setTodos] = useStorage("TODO_KEY", []);
-  const [filterValue, setFilterValue] = useStorage("flowdash-sticker", {
+  const [todos, setTodos] = useState("TODO_KEY", []);
+  const [filterValue, setFilterValue] = useState("flowdash-sticker", {
     date: "all",
     priority: "all",
     keyword: "",
@@ -61,9 +57,7 @@ function App() {
         <section className="greet-box light">
           <div className="greet-text">
             <NickName />
-            <div>
-              <span>OOO님 좋은 하루예요</span>
-            </div>
+
             <span className="today-date">{time.toLocaleDateString()}</span>
           </div>
           <button className="theme-btn light">💤</button>

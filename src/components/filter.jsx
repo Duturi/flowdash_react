@@ -53,7 +53,8 @@ const Filter = ({ filterValue, setFilterValue }) => {
       </div>
 
       <div className="sticker-list">
-        {Object.entries(filterValue).map(([key, value]) => {
+        {Object.keys(filterValue).map((key) => {
+          const value = filterValue[key];
           if (!value || key === "sort" || value === "all") return null;
 
           return (
